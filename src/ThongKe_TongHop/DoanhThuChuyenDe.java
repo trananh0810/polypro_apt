@@ -467,7 +467,7 @@ public class DoanhThuChuyenDe extends JPanel {
             }
         });
         // </editor-fold>
-        
+
         // <editor-fold defaultstate="collapsed" desc="Sự kiện key cho txtTo ">
         txtTo.addKeyListener(new KeyListener() {
             @Override
@@ -526,7 +526,7 @@ public class DoanhThuChuyenDe extends JPanel {
             txtFrom.requestFocus();
             return false;
         }
-        
+
         try {
             Date dateFrom = dateHelper.toDate(dateFromStr);
         } catch (ParseException ex) {
@@ -539,7 +539,7 @@ public class DoanhThuChuyenDe extends JPanel {
 
     private boolean checkDateTo() {
         String dateToStr = txtTo.getText();
-        
+
         if (!dateToStr.matches("^[0-9\\-]+$")) {
             txtTo.requestFocus();
             return false;
@@ -714,10 +714,13 @@ public class DoanhThuChuyenDe extends JPanel {
 
     // <editor-fold defaultstate="collapsed" desc="REFRESH DỮ LIỆU ">
     public void refresh() {
-        loadDataToCbxYear();
-        int year = (int) cbxYear.getItemAt(0);
-        loadDataToTblDoanhThu(getListDoanhThu(year));
-        loadDataToTblSum();
+        try {
+            loadDataToCbxYear();
+            int year = (int) cbxYear.getItemAt(0);
+            loadDataToTblDoanhThu(getListDoanhThu(year));
+            loadDataToTblSum();
+        } catch (Exception e) {
+        }
     }
     // </editor-fold>
 
@@ -921,17 +924,16 @@ public class DoanhThuChuyenDe extends JPanel {
 
         cell = row.createCell(8);
         cell.setCellStyle(createCellStyle2(sheet));
-        
-        
-        sheet.addMergedRegion(new CellRangeAddress(indexRow+2, indexRow+2, 5, 7));
-        row     = sheet.createRow(indexRow+2);
-        cell    = row.createCell(5, CellType.STRING);
+
+        sheet.addMergedRegion(new CellRangeAddress(indexRow + 2, indexRow + 2, 5, 7));
+        row = sheet.createRow(indexRow + 2);
+        cell = row.createCell(5, CellType.STRING);
         cell.setCellValue("NGƯỜI THỐNG KÊ");
         cell.setCellStyle(createCellStyle1(sheet));
-        
-        sheet.addMergedRegion(new CellRangeAddress(indexRow+8, indexRow+8, 5, 7));
-        row     = sheet.createRow(indexRow+8);
-        cell    = row.createCell(5, CellType.STRING);
+
+        sheet.addMergedRegion(new CellRangeAddress(indexRow + 8, indexRow + 8, 5, 7));
+        row = sheet.createRow(indexRow + 8);
+        cell = row.createCell(5, CellType.STRING);
         cell.setCellValue(DangNhapFrame.nvLogin.getHoTen());
         cell.setCellStyle(createCellStyle1(sheet));
     }

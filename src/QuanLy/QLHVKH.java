@@ -78,7 +78,10 @@ public class QLHVKH extends JPanel {
             this.init();
             this.addControls();
             this.loadDataToCbxNam();
-            this.loadDataToCbxKH();
+            if (cbxSearchNam.getItemCount() > 0) {
+                this.loadDataToCbxKH();
+            }
+            
             this.addEvents();
             this.showWindow();
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
@@ -620,8 +623,6 @@ public class QLHVKH extends JPanel {
             loadDataToTable();
         } catch (Exception e) {
         }
-
-        System.out.println("đã làm mới màn hình quản lý học viên của khóa học");
     }
 
     private boolean checkValidate() {

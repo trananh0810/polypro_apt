@@ -588,8 +588,10 @@ public class QLCD extends JPanel {
     }
 
     public void refresh() {
-        loadDataToTable();
-        System.out.println("đã làm mới màn hình quản lý chuyên đề");
+        try {
+            loadDataToTable();
+        } catch (Exception e) {
+        }
     }
 
     // CLEAR FORM

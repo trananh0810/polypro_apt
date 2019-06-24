@@ -310,6 +310,7 @@ public class MainFrame extends JFrame {
         });
         // </editor-fold>
 
+        refresh30s();
     }
 
     // <editor-fold defaultstate="collapsed" desc="SET TIME ">
@@ -346,7 +347,7 @@ public class MainFrame extends JFrame {
                 "Quản lý Nhân viên",
                 "Thống kê Người đăng ký học theo tháng",
                 "Thống kê Doanh thu theo Chuyên đề",
-                "Tổng hợp bảng điểm Khóa học"};
+                "Tổng hợp Bảng điểm Khóa học"};
         } else {
             func = new Object[]{"Quản lý Học viên của khóa học",
                 "Quản lý Chuyên đề",
@@ -363,7 +364,6 @@ public class MainFrame extends JFrame {
     // <editor-fold defaultstate="collapsed" desc="HIỂN THỊ CHI TIẾT CHỨC NĂNG ">
     private void showDetailFunc() {
         Object obj = listFunc.getSelectedValue();
-
         switch (obj.toString()) {
             case "Quản lý Nhân viên":
                 cardLayout.show(pnDetailFunc, "QuanLyNhanVien");
@@ -386,7 +386,7 @@ public class MainFrame extends JFrame {
             case "Thống kê Doanh thu theo Chuyên đề":
                 cardLayout.show(pnDetailFunc, "ThongKeDoanhThu");
                 break;
-            case "Tổng hợp bảng điểm Khóa học":
+            case "Tổng hợp Bảng điểm Khóa học":
                 cardLayout.show(pnDetailFunc, "TongHopBangDiem");
                 break;
             default:
@@ -406,6 +406,50 @@ public class MainFrame extends JFrame {
             ChaoJDialog.frLogin.setVisible(true);
             ChaoJDialog.frLogin.progressBar.setValue(0);
         }
+    }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="REFRESH TOÀN BỘ CÁC MÀN HÌNH TRỪ QLNV 30S 1 LẦN ">
+    private void refresh30s(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {             
+                    try {
+                        Thread.sleep(30000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
+                    //refresh QLHVKH
+                    DangNhapFrame.pnQLHVKH.refresh();
+                    
+                    //refresh QLCD
+                    if (DangNhapFrame.pnQLCĐ.choose == 0) {
+                        DangNhapFrame.pnQLCĐ.refresh();
+                    }
+                    
+                    //refresh QLKH
+                    if (DangNhapFrame.pnQLKH.choose == 0) {
+                        DangNhapFrame.pnQLKH.refresh();
+                    }
+                    
+                    //refresh QLHV
+                    if (DangNhapFrame.pnQLHV.flagSave == DangNhapFrame.pnQLHV.FLAG_DEFAULT) {
+                        DangNhapFrame.pnQLHV.refresh();
+                    }
+                    
+                    //refresh TKHV
+                    DangNhapFrame.pnTKHV.refresh();
+                    
+                    //refresh TKDT
+                    DangNhapFrame.pnTKDT.refresh();
+                    
+                    //refresh THBD
+                    DangNhapFrame.pnTHBĐ.refresh();
+                }
+            }
+        }).start();
     }
     // </editor-fold>
 }

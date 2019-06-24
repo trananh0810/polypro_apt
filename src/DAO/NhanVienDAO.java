@@ -121,4 +121,18 @@ public class NhanVienDAO implements InterfaceDAO<NhanVien>{
         
         return jdbcHelper.executeUpdate(sql, newPass,id);
     }
+    
+    public NhanVien getByID(String id) throws SQLException{
+        String sql = "SELECT * FROM dbo.NhanVien WHERE id = ?";
+        
+        ResultSet rs = jdbcHelper.executeQuery(sql,id);
+        
+        NhanVien nv = null;
+        
+        if (rs.next()) {            
+            nv = readResultSet(rs);
+        }
+        
+        return nv;
+    }
 }

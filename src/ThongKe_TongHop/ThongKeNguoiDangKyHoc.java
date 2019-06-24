@@ -58,20 +58,20 @@ import org.apache.poi.xssf.streaming.SXSSFSheet;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 // </editor-fold>
 
-
 /**
  *
  * @author phuoc.bleach
  */
-public class ThongKeNguoiDangKyHoc extends JPanel{
-    JdbcHelper jdbcHelper   = new JdbcHelper();
-    
+public class ThongKeNguoiDangKyHoc extends JPanel {
+
+    JdbcHelper jdbcHelper = new JdbcHelper();
+
     JButton btnExport;
-    
+
     int numberFile = 1;
-    
+
     public static boolean doneLoad = false;
-    
+
     //<editor-fold defaultstate="collapsed" desc="Component">
     JLabel lblNam;
     JComboBox cbxNam;
@@ -80,49 +80,49 @@ public class ThongKeNguoiDangKyHoc extends JPanel{
     JScrollPane scTable;
     JTableHeader tblHeader;
     //</editor-fold>
-    
+
     public ThongKeNguoiDangKyHoc() {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-             init();
+            init();
             addControls();
             addEvents();
             showWindow();
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             Logger.getLogger(ThongKeNguoiDangKyHoc.class.getName()).log(Level.SEVERE, null, ex);
         }
-       
+
     }
-    
+
     // <editor-fold defaultstate="collapsed" desc="INIT ">
     private void init() {
-        lblNam          = new JLabel("Năm học");
-        cbxNam          = new JComboBox();
+        lblNam = new JLabel("Năm học");
+        cbxNam = new JComboBox();
         cbxNam.setPreferredSize(new Dimension(100, 25));
-        ((JLabel)cbxNam.getRenderer()).setHorizontalAlignment(JLabel.CENTER);
-        
-        model           = new DefaultTableModel();
+        ((JLabel) cbxNam.getRenderer()).setHorizontalAlignment(JLabel.CENTER);
+
+        model = new DefaultTableModel();
         model.setColumnIdentifiers(new Object[]{
-           "STT", "THÁNG", "SỐ LƯỢNG SINH VIÊN"
+            "STT", "THÁNG", "SỐ LƯỢNG SINH VIÊN"
         });
-        tblTKNDH        = new JTable(model){
+        tblTKNDH = new JTable(model) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
-            
+
         };
-        scTable         = new JScrollPane(tblTKNDH, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scTable = new JScrollPane(tblTKNDH, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         tblHeader = tblTKNDH.getTableHeader();
-        ((DefaultTableCellRenderer)tblHeader.getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
+        ((DefaultTableCellRenderer) tblHeader.getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
         tblTKNDH.setRowSorter(new TableRowSorter(model));
         tblTKNDH.setAutoCreateRowSorter(true);
-        
+
         tblTKNDH.setRowHeight(30);
-        
+
         tblTKNDH.setSelectionBackground(Color.decode("#3a4d8f"));
         //căn giữa nội dung table
-        DefaultTableCellRenderer renderer   = new DefaultTableCellRenderer(){
+        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
                 final Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
@@ -133,49 +133,48 @@ public class ThongKeNguoiDangKyHoc extends JPanel{
             }
         };
         renderer.setHorizontalAlignment((int) JTable.CENTER_ALIGNMENT);
-        for (int i = 0; i < tblTKNDH.getColumnCount()-1; i++) {
+        for (int i = 0; i < tblTKNDH.getColumnCount() - 1; i++) {
             tblTKNDH.setDefaultRenderer(tblTKNDH.getColumnClass(i), renderer);
         }
-        
+
         tblTKNDH.getColumnModel().getColumn(0).setPreferredWidth(90);
         tblTKNDH.getColumnModel().getColumn(1).setPreferredWidth(610);
         tblTKNDH.getColumnModel().getColumn(2).setPreferredWidth(460);
-        
+
         lblNam.setFont(new Font("Segoe UI", 0, 16));
         cbxNam.setFont(new Font("Segoe UI", 0, 14));
         scTable.setFont(new Font("Segoe UI", 0, 14));
-        
+
     }
 // </editor-fold>
-    
-    
+
     private void addControls() {
-        
+
         //<editor-fold defaultstate="collapsed" desc="Header">
-        JPanel pnHeader     = new JPanel(new FlowLayout(FlowLayout.CENTER, 30, 10));
+        JPanel pnHeader = new JPanel(new FlowLayout(FlowLayout.CENTER, 30, 10));
         pnHeader.add(lblNam);
         pnHeader.add(cbxNam);
 //        pnHeader.setBorder(new TitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Lọc", 1, 2, new Font("Segor UI", 1, 18)));
         //</editor-fold>
-        
+
         //<editor-fold defaultstate="collapsed" desc="Content">
-        JPanel pnContent    = new JPanel(new BorderLayout());
+        JPanel pnContent = new JPanel(new BorderLayout());
         pnContent.add(scTable);
         //</editor-fold>
-        
-        JPanel pnButton     = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        btnExport           = new JButton("Xuất file Excel");
+
+        JPanel pnButton = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        btnExport = new JButton("Xuất file Excel");
         pnButton.add(btnExport);
-        
+
         //<editor-fold defaultstate="collapsed" desc="Container">
         this.setLayout(new BorderLayout(0, 10));
         this.add(pnHeader, BorderLayout.NORTH);
         this.add(pnContent, BorderLayout.CENTER);
         this.add(pnButton, BorderLayout.SOUTH);
         //</editor-fold>
-        
+
     }
-    
+
     private void showWindow() {
         this.setSize(900, 600);
     }
@@ -183,14 +182,14 @@ public class ThongKeNguoiDangKyHoc extends JPanel{
     private void addEvents() {
         //load data to cbxYear
         loadDataToCbxYear();
-        
+
         //load dữ liệu thống kê mặc định
         if (cbxNam.getItemCount() > 0) {
             loadDataToTbl(getListThongKe((int) cbxNam.getItemAt(0)));
         }
-        
-        doneLoad    = true;
-        
+
+        doneLoad = true;
+
         // <editor-fold defaultstate="collapsed" desc="Sự kiện thay đổi năm cbxYear ">
         cbxNam.addItemListener(new ItemListener() {
             @Override
@@ -202,7 +201,7 @@ public class ThongKeNguoiDangKyHoc extends JPanel{
             }
         });
         // </editor-fold>
-        
+
         // <editor-fold defaultstate="collapsed" desc="Sự kiện btnExport ">
         btnExport.addActionListener(new ActionListener() {
             @Override
@@ -212,79 +211,82 @@ public class ThongKeNguoiDangKyHoc extends JPanel{
         });
         // </editor-fold>
     }
-    
+
     // <editor-fold defaultstate="collapsed" desc="GET LIST NĂM HỌC VIÊN ĐĂNG KÝ ">
-    private List<Integer> getListYear(){
-        List<Integer> listYear  = new ArrayList<>();
-        String sql              = "SELECT DISTINCT YEAR(ngayDK) FROM dbo.HocVien ORDER BY YEAR(ngayDK) DESC";
-        
+    private List<Integer> getListYear() {
+        List<Integer> listYear = new ArrayList<>();
+        String sql = "SELECT DISTINCT YEAR(ngayDK) FROM dbo.HocVien ORDER BY YEAR(ngayDK) DESC";
+
         try {
-            ResultSet rs            = jdbcHelper.executeQuery(sql);
-            
-            while (rs.next()) {                
+            ResultSet rs = jdbcHelper.executeQuery(sql);
+
+            while (rs.next()) {
                 listYear.add(rs.getInt(1));
             }
         } catch (SQLException ex) {
             Logger.getLogger(ThongKeNguoiDangKyHoc.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return listYear;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="LAOD DỮ LIỆU VÀO cbxYear ">
-    private void loadDataToCbxYear(){
+    private void loadDataToCbxYear() {
         cbxNam.removeAllItems();
         List<Integer> listYear = getListYear();
-        
+
         for (Integer integer : listYear) {
             cbxNam.addItem(integer);
         }
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="GET LIST THỐNG KÊ NGƯỜI ĐĂNG KÝ HỌC ">
-    private List<Object[]> getListThongKe(int year){
-        List<Object[]> listThongKe    = new ArrayList<>();
-        
+    private List<Object[]> getListThongKe(int year) {
+        List<Object[]> listThongKe = new ArrayList<>();
+
         String sql = "{call sp_thongKeNguoiDangKyHoc (?) }";
-        
+
         try {
             ResultSet rs = jdbcHelper.executeQuery(sql, year);
-            
-            while (rs.next()) {                
+
+            while (rs.next()) {
                 listThongKe.add(readRs(rs));
             }
         } catch (SQLException ex) {
             Logger.getLogger(ThongKeNguoiDangKyHoc.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return listThongKe;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="ĐỌC DỮ LIỆU TỪ RS ">
-    private Object[] readRs(ResultSet rs) throws SQLException{
-        return new Object[]{rs.getInt(1),rs.getInt(2),rs.getInt(3)};
+    private Object[] readRs(ResultSet rs) throws SQLException {
+        return new Object[]{rs.getInt(1), rs.getInt(2), rs.getInt(3)};
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="LOAD DỮ LIỆU VÀO TABLE ">
-    private void loadDataToTbl(List<Object[]> listThongKe){
+    private void loadDataToTbl(List<Object[]> listThongKe) {
         model.setRowCount(0);
         for (Object[] object : listThongKe) {
             model.addRow(object);
         }
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="REFRESH DỮ LIỆU ">
-    public void refresh(){
-        loadDataToCbxYear();
-        loadDataToTbl(getListThongKe((int) cbxNam.getItemAt(0)));
+    public void refresh() {
+        try {
+            loadDataToCbxYear();
+            loadDataToTbl(getListThongKe((int) cbxNam.getItemAt(0)));
+        } catch (Exception e) {
+        }
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="EXPORT EXCEL ">
     private void exportExcel(File file) throws IOException {
         SXSSFWorkbook workbook = new SXSSFWorkbook();
@@ -312,7 +314,7 @@ public class ThongKeNguoiDangKyHoc extends JPanel{
         sheet.addMergedRegion(new CellRangeAddress(6, 6, 0, 8));
         sheet.addMergedRegion(new CellRangeAddress(9, 9, 1, 4));
         sheet.addMergedRegion(new CellRangeAddress(9, 9, 5, 8));
-        
+
         SXSSFRow row;
         SXSSFCell cell;
 
@@ -380,8 +382,8 @@ public class ThongKeNguoiDangKyHoc extends JPanel{
             sheet.addMergedRegion(new CellRangeAddress(indexRow, indexRow, 5, 8));
 
             row = sheet.createRow(indexRow);
-            
-            cell = row.createCell(0,CellType.NUMERIC);
+
+            cell = row.createCell(0, CellType.NUMERIC);
             cell.setCellStyle(createCellStyle3(sheet));
             cell.setCellValue((int) obj[0]);
 
@@ -413,22 +415,21 @@ public class ThongKeNguoiDangKyHoc extends JPanel{
 
             indexRow++;
         }
-        
-        sheet.addMergedRegion(new CellRangeAddress(indexRow+1, indexRow+1, 5, 7));
-        row     = sheet.createRow(indexRow+1);
-        cell    = row.createCell(5, CellType.STRING);
+
+        sheet.addMergedRegion(new CellRangeAddress(indexRow + 1, indexRow + 1, 5, 7));
+        row = sheet.createRow(indexRow + 1);
+        cell = row.createCell(5, CellType.STRING);
         cell.setCellValue("NGƯỜI THỐNG KÊ");
         cell.setCellStyle(createCellStyle1(sheet));
-        
-        sheet.addMergedRegion(new CellRangeAddress(indexRow+7, indexRow+7, 5, 7));
-        row     = sheet.createRow(indexRow+7);
-        cell    = row.createCell(5, CellType.STRING);
+
+        sheet.addMergedRegion(new CellRangeAddress(indexRow + 7, indexRow + 7, 5, 7));
+        row = sheet.createRow(indexRow + 7);
+        cell = row.createCell(5, CellType.STRING);
         cell.setCellValue(DangNhapFrame.nvLogin.getHoTen());
         cell.setCellStyle(createCellStyle1(sheet));
     }
 
     // </editor-fold>
-    
     // <editor-fold defaultstate="collapsed" desc="AUTO RESIZE ">
     private static void autosizeColumn(SXSSFSheet sheet, int lastColumn) {
         for (int columnIndex = 0; columnIndex < lastColumn; columnIndex++) {
@@ -453,7 +454,6 @@ public class ThongKeNguoiDangKyHoc extends JPanel{
     }
 
     // </editor-fold>
-    
     // <editor-fold defaultstate="collapsed" desc="CREATE CELLSTYLE2 ">
     private CellStyle createCellStyle2(SXSSFSheet sheet) {
         org.apache.poi.ss.usermodel.Font font = sheet.getWorkbook().createFont();

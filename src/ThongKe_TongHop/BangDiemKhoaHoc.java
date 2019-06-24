@@ -74,7 +74,7 @@ public class BangDiemKhoaHoc extends JPanel {
     KhoaHocDAO khoaHocDAO = new KhoaHocDAO();
 
     JButton btnExport;
-    
+
     public static boolean doneLoad = false;
 
     public BangDiemKhoaHoc() {
@@ -175,8 +175,8 @@ public class BangDiemKhoaHoc extends JPanel {
             int maKH = cbxKhoaHoc.getItemAt(0).getId();
             loadDataToTbl(maKH);
         }
-        
-        doneLoad    = true;
+
+        doneLoad = true;
 
         // <editor-fold defaultstate="collapsed" desc="Sự kiện thay đổi khóa học ">
         cbxKhoaHoc.addItemListener(new ItemListener() {
@@ -284,9 +284,12 @@ public class BangDiemKhoaHoc extends JPanel {
 
     // <editor-fold defaultstate="collapsed" desc="REFRESH DỮ LIỆU ">
     public void refresh() {
-        loadDataToCbxKhoaHoc();
-        int maKH = (int)((KhoaHoc)cbxKhoaHoc.getSelectedItem()).getId();
-        loadDataToTbl(maKH);
+        try {
+            loadDataToCbxKhoaHoc();
+            int maKH = (int) ((KhoaHoc) cbxKhoaHoc.getSelectedItem()).getId();
+            loadDataToTbl(maKH);
+        } catch (Exception e) {
+        }
     }
     // </editor-fold>
 
@@ -438,22 +441,21 @@ public class BangDiemKhoaHoc extends JPanel {
 
             indexRow++;
         }
-        
-        sheet.addMergedRegion(new CellRangeAddress(indexRow+1, indexRow+1, 5, 7));
-        row     = sheet.createRow(indexRow+1);
-        cell    = row.createCell(5, CellType.STRING);
+
+        sheet.addMergedRegion(new CellRangeAddress(indexRow + 1, indexRow + 1, 5, 7));
+        row = sheet.createRow(indexRow + 1);
+        cell = row.createCell(5, CellType.STRING);
         cell.setCellValue("NGƯỜI TỔNG HỢP");
         cell.setCellStyle(createCellStyle1(sheet));
-        
-        sheet.addMergedRegion(new CellRangeAddress(indexRow+7, indexRow+7, 5, 7));
-        row     = sheet.createRow(indexRow+7);
-        cell    = row.createCell(5, CellType.STRING);
+
+        sheet.addMergedRegion(new CellRangeAddress(indexRow + 7, indexRow + 7, 5, 7));
+        row = sheet.createRow(indexRow + 7);
+        cell = row.createCell(5, CellType.STRING);
         cell.setCellValue(DangNhapFrame.nvLogin.getHoTen());
         cell.setCellStyle(createCellStyle1(sheet));
     }
 
     // </editor-fold>
-    
     // <editor-fold defaultstate="collapsed" desc="AUTO RESIZE ">
     private static void autosizeColumn(SXSSFSheet sheet, int lastColumn) {
         for (int columnIndex = 0; columnIndex < lastColumn; columnIndex++) {
@@ -524,17 +526,17 @@ public class BangDiemKhoaHoc extends JPanel {
             JOptionPane.showMessageDialog(null, "Chưa có dữ liệu để xuất ra file Excel. Vui lòng kiểm tra lại!", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        
+
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
         int i = fileChooser.showSaveDialog(null);
-        
-        String path = fileChooser.getSelectedFile()+ "\\Tổng hợp bảng điểm khóa học " + cbxKhoaHoc.getSelectedItem().toString() + "_" + System.currentTimeMillis() + ".xlsx";
+
+        String path = fileChooser.getSelectedFile() + "\\Tổng hợp bảng điểm khóa học " + cbxKhoaHoc.getSelectedItem().toString() + "_" + System.currentTimeMillis() + ".xlsx";
         if (i == fileChooser.APPROVE_OPTION) {
             try {
                 File file = new File(path);
-                
+
                 exportExcel(file);
             } catch (IOException ex) {
                 Logger.getLogger(BangDiemKhoaHoc.class.getName()).log(Level.SEVERE, null, ex);

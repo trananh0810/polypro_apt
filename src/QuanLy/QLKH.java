@@ -539,10 +539,12 @@ public class QLKH extends JPanel {
 
     // METHOD
     public void refresh() {
-        loadDataToCbx();
-        loadDataToCbxNam();
-        loadDataToTable();
-        System.out.println("đã làm mới màn hình quản lý khóa học");
+        try {
+            loadDataToCbx();
+            loadDataToCbxNam();
+            loadDataToTable();
+        } catch (Exception e) {
+        }
     }
 
     private void reload() {

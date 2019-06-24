@@ -2420,43 +2420,49 @@ public class QLHV extends JPanel {
         loadDataToTblKH();
 
         loadDataToCbxKhoaHoc();
+
+        lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
     }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="LOAD DỮ LIỆU VÀO BẢNG KHÓA HỌC MÀ HỌC VIÊN ĐÃ THAM GIA ">
     private void loadDataToTblKH() throws SQLException, ParseException {
-        listHvEnjoyKh = hocVienDAO.getListKhByHV(hvSelected.getId());
+        if (hvSelected != null) {
+            listHvEnjoyKh = hocVienDAO.getListKhByHV(hvSelected.getId());
 
-        dtmKH.setRowCount(0);
-        int stt = 1;
-        for (HocVienEnjoyKhoaHoc hvekh : listHvEnjoyKh) {
-            dtmKH.addRow(new Object[]{stt,
-                hvekh.getTenCĐ(),
-                hvekh.getThoiLuong() + " giờ",
-                numberFormat.format(hvekh.getHocPhi() * 1000),
-                dateHelper.castDateForm3ToForm1(hvekh.getNgayKG()),
-                hvekh.getDiem() >= 0 ? hvekh.getDiem() : "-"});
-            stt++;
+            dtmKH.setRowCount(0);
+            int stt = 1;
+            for (HocVienEnjoyKhoaHoc hvekh : listHvEnjoyKh) {
+                dtmKH.addRow(new Object[]{stt,
+                    hvekh.getTenCĐ(),
+                    hvekh.getThoiLuong() + " giờ",
+                    numberFormat.format(hvekh.getHocPhi() * 1000),
+                    dateHelper.castDateForm3ToForm1(hvekh.getNgayKG()),
+                    hvekh.getDiem() >= 0 ? hvekh.getDiem() : "-"});
+                stt++;
+            }
         }
     }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="LOAD DỮ LIỆU VÀO CBX KHÓA HỌC ">
     private void loadDataToCbxKhoaHoc() throws SQLException, ParseException {
-        cbxKhoaHoc.removeAllItems();
+        if (hvSelected != null) {
+            cbxKhoaHoc.removeAllItems();
 
-        String maHV = "";
+            String maHV = "";
 
-        if (flagSave != 1) {
-            maHV = hvSelected.getId();
-        }
+            if (flagSave != 1) {
+                maHV = hvSelected.getId();
+            }
 
-        List<KhoaHoc> listKH = hocVienDAO.getListKhForHV(maHV);
+            List<KhoaHoc> listKH = hocVienDAO.getListKhForHV(maHV);
 
-        cbxKhoaHoc.addItem("-- Chọn khóa học --");
+            cbxKhoaHoc.addItem("-- Chọn khóa học --");
 
-        for (KhoaHoc khoaHoc : listKH) {
-            cbxKhoaHoc.addItem(khoaHoc);
+            for (KhoaHoc khoaHoc : listKH) {
+                cbxKhoaHoc.addItem(khoaHoc);
+            }
         }
     }
     // </editor-fold>
@@ -2560,8 +2566,6 @@ public class QLHV extends JPanel {
         } catch (ParseException ex) {
             Logger.getLogger(QLHV.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        System.out.println("đã làm mới màn hình quản lý học viên");
     }
     // </editor-fold>
 

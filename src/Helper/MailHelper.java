@@ -90,8 +90,8 @@ public class MailHelper {
             mailMessage = new MimeMessage(getMailSession);
             mailMessage.setFrom(new InternetAddress(user));
             mailMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
-            mailMessage.setSubject(sub);
-            mailMessage.setText(content);
+            mailMessage.setSubject(sub,"UTF-8");
+            mailMessage.setText(content,"UTF-8");
 
             javax.mail.Transport.send(mailMessage);
 //        } catch (AddressException ex) {
