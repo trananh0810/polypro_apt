@@ -280,7 +280,16 @@ public class ThongKeNguoiDangKyHoc extends JPanel {
     // <editor-fold defaultstate="collapsed" desc="REFRESH DỮ LIỆU ">
     public void refresh() {
         try {
+            int year = (int) cbxNam.getSelectedItem();
             loadDataToCbxYear();
+            
+            for (int i = 0; i < cbxNam.getItemCount(); i++) {
+                if ((int)cbxNam.getItemAt(i) == year) {
+                    cbxNam.setSelectedItem(year);
+                    loadDataToTbl(getListThongKe(year));
+                    return;
+                }
+            }
             loadDataToTbl(getListThongKe((int) cbxNam.getItemAt(0)));
         } catch (Exception e) {
         }

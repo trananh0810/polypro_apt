@@ -65,6 +65,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
 import polypro_apt2_main.MainFrame;
 
@@ -121,7 +122,23 @@ public class QLKH extends JPanel {
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
+            
+            @Override
+            public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
+                try {
+                    JLabel c = (JLabel) super.prepareRenderer(renderer, row, column);
+                    if (column == 1) {
+                        c.setHorizontalAlignment(JLabel.LEFT);
+                    } else {
+                        c.setHorizontalAlignment(JLabel.CENTER);
 
+                    }
+                    return c;
+                } catch (Exception e) {
+                    Logger.getLogger(QLHVKH.class.getName()).log(Level.SEVERE, null, e);
+                }
+                return (JLabel) super.prepareRenderer(renderer, row, column);
+            }
         };
         scTblKhoaHoc = new JScrollPane(tblKhoaHoc, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 

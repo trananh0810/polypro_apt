@@ -315,6 +315,8 @@ public class DoanhThuChuyenDe extends JPanel {
                             loadDataToTblDoanhThu(getListDoanhThu(txtFrom.getText(), txtTo.getText()));
                             loadDataToTblSum();
                         } else {
+                            dtmDoanhThu.setRowCount(0);
+                            loadDataToTblSum();
                             JOptionPane.showMessageDialog(null, "Ngày kết thúc phải lớn hơn ngày bắt đầu", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
                             txtTo.requestFocus();
                         }
@@ -322,6 +324,8 @@ public class DoanhThuChuyenDe extends JPanel {
                         Logger.getLogger(DoanhThuChuyenDe.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 } else {
+                    dtmDoanhThu.setRowCount(0);
+                    loadDataToTblSum();
                     JOptionPane.showMessageDialog(null, "Ngày phải có định dạng ngày-tháng-năm", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
                 }
             }
@@ -715,10 +719,43 @@ public class DoanhThuChuyenDe extends JPanel {
     // <editor-fold defaultstate="collapsed" desc="REFRESH DỮ LIỆU ">
     public void refresh() {
         try {
-            loadDataToCbxYear();
-            int year = (int) cbxYear.getItemAt(0);
-            loadDataToTblDoanhThu(getListDoanhThu(year));
-            loadDataToTblSum();
+            if (radYear.isSelected()) {
+                int year = (int) cbxYear.getSelectedItem();
+
+                loadDataToCbxYear();
+
+                for (int i = 0; i < cbxYear.getItemCount(); i++) {
+                    if ((int) cbxYear.getItemAt(i) == year) {
+                        cbxYear.setSelectedItem(year);
+                        loadDataToTblDoanhThu(getListDoanhThu(year));
+                        loadDataToTblSum();
+                        return;
+                    }
+                }
+
+                loadDataToTblDoanhThu(getListDoanhThu(year));
+                loadDataToTblSum();
+            } else {
+                if (checkDateFrom() && checkDateTo()) {
+                    try {
+                        if (dateHelper.toDate(txtTo.getText()).getTime() - dateHelper.toDate(txtFrom.getText()).getTime() >= 0) {
+                            loadDataToTblDoanhThu(getListDoanhThu(txtFrom.getText(), txtTo.getText()));
+                            loadDataToTblSum();
+                        } else {
+                            dtmDoanhThu.setRowCount(0);
+                            loadDataToTblSum();
+                            JOptionPane.showMessageDialog(null, "Ngày kết thúc phải lớn hơn ngày bắt đầu", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+                            txtTo.requestFocus();
+                        }
+                    } catch (ParseException ex) {
+                        Logger.getLogger(DoanhThuChuyenDe.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                } else {
+                    dtmDoanhThu.setRowCount(0);
+                    loadDataToTblSum();
+                    JOptionPane.showMessageDialog(null, "Ngày phải có định dạng ngày-tháng-năm", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+                }
+            }
         } catch (Exception e) {
         }
     }

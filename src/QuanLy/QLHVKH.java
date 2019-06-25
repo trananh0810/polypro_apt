@@ -132,7 +132,7 @@ public class QLHVKH extends JPanel {
                 } catch (Exception e) {
                     Logger.getLogger(QLHVKH.class.getName()).log(Level.SEVERE, null, e);
                 }
-                return null;
+                return (JLabel) super.prepareRenderer(renderer, row, column);
             }
         };
 
