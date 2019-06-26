@@ -1434,7 +1434,7 @@ public class QLNV extends JPanel {
 
     // <editor-fold defaultstate="collapsed" desc="RESET PASSWORD">
     private void resetPassword() {
-        int choose = JOptionPane.showConfirmDialog(null, "Bạn có muốn khôi phục mật khẩu cho tài khoản " + nvSelected.getID() + " không?", "Hỏi", JOptionPane.YES_NO_OPTION);
+        int choose = JOptionPane.showConfirmDialog(null, "Bạn có muốn khôi phục mật khẩu cho tài khoản của " + nvSelected.getHoTen() + " (" + nvSelected.getID() + ") không?", "Hỏi", JOptionPane.YES_NO_OPTION);
 
         if (choose == JOptionPane.NO_OPTION || choose == JOptionPane.CLOSED_OPTION) {
             return;

@@ -84,6 +84,8 @@ public class DoanhThuChuyenDe extends JPanel {
     NumberFormat numberFormat = NumberFormat.getCurrencyInstance(new Locale("VI", "VN"));
 
     public static boolean doneLoad = false;
+    
+    boolean doneRefresh = true;
 
     public DoanhThuChuyenDe() {
         addControls();
@@ -421,7 +423,7 @@ public class DoanhThuChuyenDe extends JPanel {
         cbxYear.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                if (e.getStateChange() == ItemEvent.SELECTED) {
+                if (e.getStateChange() == ItemEvent.SELECTED && doneRefresh == true) {
                     int year = (int) cbxYear.getSelectedItem();
                     loadDataToTblDoanhThu(getListDoanhThu(year));
                     loadDataToTblSum();
@@ -718,6 +720,7 @@ public class DoanhThuChuyenDe extends JPanel {
 
     // <editor-fold defaultstate="collapsed" desc="REFRESH DỮ LIỆU ">
     public void refresh() {
+        doneRefresh = false;
         try {
             if (radYear.isSelected()) {
                 int year = (int) cbxYear.getSelectedItem();
@@ -729,6 +732,7 @@ public class DoanhThuChuyenDe extends JPanel {
                         cbxYear.setSelectedItem(year);
                         loadDataToTblDoanhThu(getListDoanhThu(year));
                         loadDataToTblSum();
+                        doneRefresh = true;
                         return;
                     }
                 }
@@ -758,6 +762,7 @@ public class DoanhThuChuyenDe extends JPanel {
             }
         } catch (Exception e) {
         }
+        doneRefresh = true;
     }
     // </editor-fold>
 

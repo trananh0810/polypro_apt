@@ -71,6 +71,8 @@ public class ThongKeNguoiDangKyHoc extends JPanel {
     int numberFile = 1;
 
     public static boolean doneLoad = false;
+    
+    boolean doneRefresh = true;
 
     //<editor-fold defaultstate="collapsed" desc="Component">
     JLabel lblNam;
@@ -194,7 +196,7 @@ public class ThongKeNguoiDangKyHoc extends JPanel {
         cbxNam.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                if (e.getStateChange() == ItemEvent.SELECTED) {
+                if (e.getStateChange() == ItemEvent.SELECTED && doneRefresh == true) {
                     int year = (int) cbxNam.getSelectedItem();
                     loadDataToTbl(getListThongKe(year));
                 }
@@ -279,6 +281,7 @@ public class ThongKeNguoiDangKyHoc extends JPanel {
 
     // <editor-fold defaultstate="collapsed" desc="REFRESH DỮ LIỆU ">
     public void refresh() {
+        doneRefresh = false;
         try {
             int year = (int) cbxNam.getSelectedItem();
             loadDataToCbxYear();
@@ -293,6 +296,7 @@ public class ThongKeNguoiDangKyHoc extends JPanel {
             loadDataToTbl(getListThongKe((int) cbxNam.getItemAt(0)));
         } catch (Exception e) {
         }
+        doneRefresh = true;
     }
     // </editor-fold>
 

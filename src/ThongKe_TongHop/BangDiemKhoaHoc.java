@@ -77,6 +77,8 @@ public class BangDiemKhoaHoc extends JPanel {
 
     public static boolean doneLoad = false;
 
+    boolean doneRefresh = true;
+
     public BangDiemKhoaHoc() {
         addControls();
         addEvent();
@@ -182,7 +184,7 @@ public class BangDiemKhoaHoc extends JPanel {
         cbxKhoaHoc.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                if (e.getStateChange() == ItemEvent.SELECTED) {
+                if (e.getStateChange() == ItemEvent.SELECTED && doneRefresh == true) {
                     KhoaHoc kh = (KhoaHoc) cbxKhoaHoc.getSelectedItem();
                     int maKH = kh.getId();
                     loadDataToTbl(maKH);
@@ -223,6 +225,7 @@ public class BangDiemKhoaHoc extends JPanel {
 
     // <editor-fold defaultstate="collapsed" desc="LOAD DỮ LIỆU VÀO cbxKhoaHoc ">
     private void loadDataToCbxKhoaHoc() {
+        cbxKhoaHoc.removeAllItems();
         List<KhoaHoc> listKhoaHoc = getListKhoaHoc();
 
         for (KhoaHoc khoaHoc : listKhoaHoc) {
@@ -284,12 +287,27 @@ public class BangDiemKhoaHoc extends JPanel {
 
     // <editor-fold defaultstate="collapsed" desc="REFRESH DỮ LIỆU ">
     public void refresh() {
+        doneRefresh = false;
+        KhoaHoc khSelected = (KhoaHoc) cbxKhoaHoc.getSelectedItem();
         try {
             loadDataToCbxKhoaHoc();
+
+            List<KhoaHoc> listKH = getListKhoaHoc();
+            for (int i = 0;i < listKH.size();i++) {
+                KhoaHoc kh = listKH.get(i);
+                if (kh.getId() == khSelected.getId()) {
+                    cbxKhoaHoc.setSelectedIndex(i);
+                    loadDataToTbl(khSelected.getId());
+                    doneRefresh = true;
+                    return;
+                }
+            }
+
             int maKH = (int) ((KhoaHoc) cbxKhoaHoc.getSelectedItem()).getId();
             loadDataToTbl(maKH);
         } catch (Exception e) {
         }
+        doneRefresh = true;
     }
     // </editor-fold>
 
