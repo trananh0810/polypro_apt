@@ -297,6 +297,7 @@ public class QLCD extends JPanel {
         pnInformation.add(scMoTa, gbc);
 
         JPanel pnButton = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
+        pnButton.setPreferredSize(new Dimension(330, 30));
         pnButton.add(btnNew);
         pnButton.add(btnEdit);
         if (DangNhapFrame.nvLogin.getVaiTro() == ROLE_TRUONG_PHONG) {

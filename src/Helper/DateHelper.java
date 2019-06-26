@@ -43,8 +43,6 @@ public class DateHelper {
     
     //Chuyển date form 1(dd-MM-yyyy) sang date form 2 (MM-dd-yyyy)
     public String castDateForm1ToForm2(String dateForm1) throws ParseException{
-        DATE_FORMATER1.setLenient(false);
-        DATE_FORMATER2.setLenient(false);
         Date date   = DATE_FORMATER1.parse(dateForm1);
         
         return DATE_FORMATER2.format(date);
@@ -52,8 +50,6 @@ public class DateHelper {
     
     //Chuyển date form 3 sang date form 1
     public String castDateForm3ToForm1(String dateForm3) throws ParseException{
-        DATE_FORMATER1.setLenient(false);
-        DATE_FORMATER3.setLenient(false);
         Date date   = DATE_FORMATER3.parse(dateForm3);
         
         return DATE_FORMATER1.format(date);

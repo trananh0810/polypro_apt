@@ -476,6 +476,7 @@ public class QLHV extends JPanel {
         pnInformation.add(cbxKhoaHoc, gbc);
 
         JPanel pnButton1 = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
+        pnButton1.setPreferredSize(new Dimension(330, 30));
         pnButton1.add(btnNew);
         pnButton1.add(btnUpdate);
         pnButton1.add(btnSave);

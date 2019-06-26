@@ -13,6 +13,7 @@ import java.sql.Array;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -24,13 +25,33 @@ import java.util.logging.Logger;
  */
 public class NewClass {
     public static void main(String[] args) {
-        List<Integer> list = new ArrayList<>();
+        KhoaHoc kh = new KhoaHoc(1, "COM12", 1000, 30, "1-7-2019", "", "17-6-2019", false);
         
-        for (Integer integer : list) {
-            System.out.println(integer);
+        if (flagNgayHH(kh)) {
+            System.out.println("hết hạn");
+        } else {
+            System.out.println("chưa hết hạn");
         }
-        
-        System.out.println(list.size());
+    }
+    public static boolean flagNgayHH(KhoaHoc khoaHoc) {
+        DateHelper dateHelper = new DateHelper();
+        int time = khoaHoc.getThoiLuong();
+        int day = time / 2;
+        int numberDay = (day / 3) * 7 + day % 3;
+
+        try {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(dateHelper.toDate(khoaHoc.getNgayKG()));
+            calendar.add(Calendar.DAY_OF_YEAR, numberDay);
+            Date HH = calendar.getTime();
+
+            if (new Date().after(HH)) {
+                return true;
+            }
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+        return false;
     }
     
     

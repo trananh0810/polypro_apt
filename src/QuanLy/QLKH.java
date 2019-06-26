@@ -40,7 +40,6 @@ import java.sql.SQLException;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -60,7 +59,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.Renderer;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.TitledBorder;
@@ -69,7 +67,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
-import polypro_apt2_main.MainFrame;
 
 public class QLKH extends JPanel {
 
@@ -310,6 +307,7 @@ public class QLKH extends JPanel {
         pnInformation.add(scGhiChu, gbc);
 
         JPanel pnButton = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
+        pnButton.setPreferredSize(new Dimension(330, 30));
         pnButton.add(btnNew);
         pnButton.add(btnEdit);
         if (DangNhapFrame.nvLogin.getVaiTro() == ROLE_TRUONG_PHONG) {
