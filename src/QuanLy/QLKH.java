@@ -40,6 +40,7 @@ import java.sql.SQLException;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -59,6 +60,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.Renderer;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.TitledBorder;
@@ -83,19 +85,26 @@ public class QLKH extends JPanel {
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             Logger.getLogger(QLKH.class.getName()).log(Level.SEVERE, null, ex);
         }
-        this.init();
+        this.initComponent();
         this.addControls();
-        this.setDefault();
-        this.refresh();
+        this.openWindow();
         this.addEvents();
         this.showWindow();
+    }
+
+    private void openWindow() {
+        setDefault();
+        loadDataToCbx();
+        loadDataToCbxNam();
+        loadDataToTable();
     }
 
     private void showWindow() {
         this.setSize(1100, 650);
     }
 
-    private void init() {
+    // Khởi tạo Component
+    private void initComponent() {
         lblInformationTitle = new JLabel("Thông tin khóa học");
         lblNgayKhaiGiang = new JLabel("Ngày khai giảng");
         lblSearchCD = new JLabel("Chuyên đề");
@@ -122,7 +131,7 @@ public class QLKH extends JPanel {
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
-            
+
             @Override
             public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
                 try {
@@ -134,10 +143,10 @@ public class QLKH extends JPanel {
 
                     }
                     return c;
+
                 } catch (Exception e) {
-                    Logger.getLogger(QLHVKH.class.getName()).log(Level.SEVERE, null, e);
+                    return null;
                 }
-                return (JLabel) super.prepareRenderer(renderer, row, column);
             }
         };
         scTblKhoaHoc = new JScrollPane(tblKhoaHoc, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -333,29 +342,36 @@ public class QLKH extends JPanel {
 
         doneLoad = true;
 
+        //<editor-fold defaultstate="collapsed" desc="Send Mail kết quả">
         sendMailResultStudy();
+        //</editor-fold>
 
         //<editor-fold defaultstate="collapsed" desc="JComboBox - Filter">
         cbxSearchCD.addItemListener((ItemEvent e) -> {
-            if (cbxSearchCD.isFocusable()) {
-                if (e.getStateChange() == ItemEvent.SELECTED) {
+            if (doneRefresh == true) {
+                if (cbxSearchCD.getItemCount() > 0 && cbxSearchNam.getItemCount() > 0) {
                     loadDataToTable();
+
                     if (choose == 0) {
                         index = 0;
                         fillToForm(index);
                     }
                 }
             }
+
         });
 
         cbxSearchNam.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                if (e.getStateChange() == ItemEvent.SELECTED) {
-                    loadDataToTable();
-                    if (choose == 0) {
-                        index = 0;
-                        fillToForm(index);
+                if (doneRefresh == true) {
+                    if (cbxSearchCD.getItemCount() > 0 && cbxSearchNam.getItemCount() > 0) {
+                        loadDataToTable();
+
+                        if (choose == 0) {
+                            index = 0;
+                            fillToForm(index);
+                        }
                     }
                 }
             }
@@ -386,6 +402,7 @@ public class QLKH extends JPanel {
 
         //<editor-fold defaultstate="collapsed" desc="Delete">
         btnDelete.addActionListener((ActionEvent e) -> {
+
             if (flagNgayHH(khoaHoc) == true) {
                 JOptionPane.showMessageDialog(null, "Khóa học " + khoaHoc + " đã kết thúc - Không thể xóa khóa học này !", "Cảnh báo!", JOptionPane.WARNING_MESSAGE);
             } else {
@@ -550,17 +567,61 @@ public class QLKH extends JPanel {
         });
         //</editor-fold>
 
+        //<editor-fold defaultstate="collapsed" desc="LOAD KH đầu tiên ">
         fillToForm(index);
+        //</editor-fold>
 
     }
 
     // METHOD
     public void refresh() {
         try {
+            doneRefresh = false;
+
+            // Lấy dữ liệu cũ
+            final ChuyenDe oldCD = (ChuyenDe) cbxSearchCD.getSelectedItem();
+            final KhoaHoc oldKH = khoaHoc;
+            final int year = (int) cbxSearchNam.getSelectedItem();
+
+            // Clear dữ liệu
+            clear();
+            listCD.clear();
+            listKH.clear();
+            listYear.clear();
+            index = 0;
+
+            // Load lại data
             loadDataToCbx();
             loadDataToCbxNam();
             loadDataToTable();
+            doneRefresh = true;
+
+            // Reload data
+            if (doneRefresh == true) {
+                // Fill data cũ lên lại form
+                for (ChuyenDe cd1 : listCD) {
+                    if (oldCD.getId().equalsIgnoreCase(cd1.getId())) {
+                        cbxSearchCD.setSelectedItem(cd1);
+                        break;
+                    }
+                }
+                for (int integer : listYear) {
+                    if (integer == year) {
+                        cbxSearchNam.setSelectedItem(integer);
+                    }
+                }
+
+                for (int i = 0; i < listKH.size(); i++) {
+                    if (oldKH.getId() == listKH.get(i).getId()) {
+                        index = i;
+                        fillToForm(index);
+                        break;
+                    }
+                }
+            }
+
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -645,7 +706,6 @@ public class QLKH extends JPanel {
                 }
             }
         }
-
     }
 
     private void setDefault() {
@@ -676,7 +736,7 @@ public class QLKH extends JPanel {
         btnSave.setVisible(true);
         btnNew.setVisible(false);
         btnEdit.setVisible(false);
-        btnDelete.setVisible(!insertable);
+        btnDelete.setVisible(false);
         btnCancel.setVisible(true);
 
         cbxCD.setEnabled(true);
@@ -688,6 +748,7 @@ public class QLKH extends JPanel {
 
     private KhoaHoc getModel() {
         ChuyenDe cd = (ChuyenDe) cbxCD.getSelectedItem();
+        khoaHoc = new KhoaHoc();
 
         khoaHoc.setMaCD(((ChuyenDe) cbxCD.getSelectedItem()).getId());
         khoaHoc.setHocPhi(cd.getHocPhi());
@@ -730,10 +791,9 @@ public class QLKH extends JPanel {
     }
 
     private void loadDataToCbx() {
-        cbxCD.removeAllItems();
-        cbxSearchCD.removeAllItems();
-
         try {
+            cbxCD.removeAllItems();
+            cbxSearchCD.removeAllItems();
             listCD = new ChuyenDeDAO().getAll();
 
             for (ChuyenDe cd : listCD) {
@@ -741,25 +801,29 @@ public class QLKH extends JPanel {
                 cbxSearchCD.addItem(cd);
             }
         } catch (SQLException ex) {
-            System.out.println(ex.toString());
+            ex.printStackTrace();
         }
     }
 
     private void loadDataToCbxNam() {
         cbxSearchNam.removeAllItems();
+        listYear = getYear();
 
-        for (int year : getYear()) {
+        for (int year : listYear) {
             cbxSearchNam.addItem(year);
         }
     }
 
     private void loadDataToTable() {
+        modelKhoaHoc = (DefaultTableModel) tblKhoaHoc.getModel();
         modelKhoaHoc.setRowCount(0);
+
         if (cbxSearchCD.getItemCount() > 0 && cbxSearchNam.getItemCount() > 0) {
 
             try {
                 ChuyenDe cd = (ChuyenDe) cbxSearchCD.getSelectedItem();
-                listKH = new KhoaHocDAO().get(cd.getId(), cbxSearchNam.getSelectedItem());
+                year = (int) cbxSearchNam.getSelectedItem();
+                listKH = new KhoaHocDAO().get(cd.getId(), year);
 
                 int i = 1;
                 for (KhoaHoc kh : listKH) {
@@ -777,7 +841,7 @@ public class QLKH extends JPanel {
                 }
 
             } catch (SQLException ex) {
-                System.out.println(ex.toString());
+                ex.printStackTrace();
             }
         }
     }
@@ -885,6 +949,7 @@ public class QLKH extends JPanel {
                 return true;
             }
         } catch (ParseException ex) {
+            ex.printStackTrace();
         }
         return false;
     }
@@ -939,13 +1004,16 @@ public class QLKH extends JPanel {
 
     //<editor-fold defaultstate="collapsed" desc="Component">
     public int choose = 0;
+    int year = 0;
     int index = 0;
     int stt = -1;
     String messCancel = "";
+    boolean doneRefresh = true;
 
     KhoaHoc khoaHoc = new KhoaHoc();
     ChuyenDe chuyenDe = new ChuyenDe();
 
+    List<Integer> listYear = new ArrayList<>();
     List<KhoaHoc> listKH = new ArrayList<>();
     List<ChuyenDe> listCD = new ArrayList<>();
     DateHelper dateHelper = new DateHelper();

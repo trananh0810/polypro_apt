@@ -1494,7 +1494,20 @@ public class QLNV extends JPanel {
         }
 
         if (listNhanVien.size() > 0) {
-            nvSelected = listNhanVien.get(0);
+            for (NhanVien nv : listNhanVien) {
+                if (nv.getID().equalsIgnoreCase(nvSelected.getID())) {
+                    loadDataToForm();
+                    for (int i = 0; i < tblNhanVien.getRowCount(); i++) {
+                        if (tblNhanVien.getValueAt(i, 1).equals(nvSelected.getID())) {
+                            tblNhanVien.setRowSelectionInterval(i, i);
+                        }
+                        indexNvSelectedInTable = i;
+                    }
+                    return;
+                }
+            }
+            int sttInList = (int) tblNhanVien.getValueAt(0, 0) - 1;
+            nvSelected = listNhanVien.get(sttInList);
             loadDataToForm();
 
             tblNhanVien.setRowSelectionInterval(0, 0);

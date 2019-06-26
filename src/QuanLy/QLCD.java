@@ -69,15 +69,14 @@ public class QLCD extends JPanel {
             Logger.getLogger(QLCD.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        this.init();
+        this.initComponent();
         this.addControls();
-        this.setDefault();
-        this.loadDataToTable();
+        this.openWindow();
         this.addEvents();
         this.showWindow();
     }
 
-    private void init() {
+    private void initComponent() {
         lblInformationTitle = new JLabel("Thông tin chuyên đề");
         lblSearchTitle = new JLabel("Tìm kiếm chuyên đề");
         lblSearch = new JLabel("Chuyên đề");
@@ -225,6 +224,11 @@ public class QLCD extends JPanel {
         } catch (SQLException ex) {
         }
 
+    }
+
+    private void openWindow() {
+        this.setDefault();
+        this.loadDataToTable();
     }
 
     private void showWindow() {
@@ -551,8 +555,8 @@ public class QLCD extends JPanel {
 
             }
         });
-
         // </editor-fold>
+
         // <editor-fold defaultstate="collapsed" desc="Sự kiện clear txtSearch với phím ESC ">
         txtSearch.addKeyListener(new KeyListener() {
             @Override
@@ -589,7 +593,23 @@ public class QLCD extends JPanel {
 
     public void refresh() {
         try {
+            final ChuyenDe cd = chuyenDe;
+
+            index = 0;
             loadDataToTable();
+
+            if (txtSearch.getText().length() > 0) {
+                listSearch = new ChuyenDeDAO().get(txtSearch.getText().trim());
+                search(indexSearch);
+            } else {
+                for (ChuyenDe chuyenDe1 : list) {
+                    if (chuyenDe1.getId().equalsIgnoreCase(cd.getId())) {
+                        index = list.indexOf(chuyenDe1);
+                        fillToForm(index);
+                        break;
+                    }
+                }
+            }
         } catch (Exception e) {
         }
     }
@@ -678,6 +698,7 @@ public class QLCD extends JPanel {
 
     // XÓA CHUYÊN ĐỀ
     private void delete() {
+        choose = 3;
         if (chkKH_IN_CD(chuyenDe)) {
             JOptionPane.showMessageDialog(null, "Đã tồn tại khóa học thuộc chuyên đề " + chuyenDe + ".\nKhông thể xóa chuyên đề này", "Cảnh báo!", JOptionPane.WARNING_MESSAGE);
         } else {
@@ -694,7 +715,7 @@ public class QLCD extends JPanel {
 
                         loadDataToTable();
                         fillToForm(index);
-                        
+
                         DangNhapFrame.pnQLKH.refresh();
                     } else {
                         JOptionPane.showMessageDialog(null, "Xóa không thành công!", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
@@ -703,7 +724,7 @@ public class QLCD extends JPanel {
                 }
             }
         }
-
+        setDefault();
     }
 
     // RESET FORM MẶC ĐỊNH
@@ -740,7 +761,7 @@ public class QLCD extends JPanel {
         btnSave.setVisible(true);
         btnNew.setVisible(false);
         btnEdit.setVisible(false);
-        btnDelete.setVisible(!insertable);
+        btnDelete.setVisible(false);
         btnCancel.setVisible(true);
 
         txtMaCD.setEnabled(insertable);
@@ -809,7 +830,7 @@ public class QLCD extends JPanel {
             txtMaCD.requestFocus();
             return false;
         }
-        
+
         try {
             ChuyenDe cd = new ChuyenDeDAO().getById(txtMaCD.getText().trim());
             if (cd != null && choose != 2) {
@@ -826,7 +847,7 @@ public class QLCD extends JPanel {
             txtTenCD.requestFocus();
             return false;
         }
-        
+
         try {
             ChuyenDe cd = new ChuyenDeDAO().getByName(txtTenCD.getText().trim());
             if (cd != null && choose != 2) {

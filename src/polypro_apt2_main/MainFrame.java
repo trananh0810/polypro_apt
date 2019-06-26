@@ -416,7 +416,7 @@ public class MainFrame extends JFrame {
             public void run() {
                 while (true) {             
                     try {
-                        Thread.sleep(30000);
+                        Thread.sleep(5000);
                     } catch (InterruptedException ex) {
                         Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
                     }

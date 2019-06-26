@@ -75,13 +75,9 @@ public class QLHVKH extends JPanel {
     public QLHVKH() {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            this.init();
+            this.initComponent();
             this.addControls();
-            this.loadDataToCbxNam();
-            if (cbxSearchNam.getItemCount() > 0) {
-                this.loadDataToCbxKH();
-            }
-            
+            this.openWindow();
             this.addEvents();
             this.showWindow();
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
@@ -89,7 +85,7 @@ public class QLHVKH extends JPanel {
         }
     }
 
-    private void init() {
+    private void initComponent() {
         lblHocVien = new JLabel("Học Viên");
         txtHocVien = new JTextField();
 
@@ -130,9 +126,8 @@ public class QLHVKH extends JPanel {
                     }
                     return c;
                 } catch (Exception e) {
-                    Logger.getLogger(QLHVKH.class.getName()).log(Level.SEVERE, null, e);
+                    return null;
                 }
-                return (JLabel) super.prepareRenderer(renderer, row, column);
             }
         };
 
@@ -182,6 +177,14 @@ public class QLHVKH extends JPanel {
         cbxSearchNam.setFont(new Font("Segoe UI", 0, 14));
 
         tblHVKH.setFont(new Font("Segoe UI", 0, 14));
+    }
+
+    private void openWindow() {
+        this.loadDataToCbxNam();
+
+        if (cbxSearchNam.getItemCount() > 0) {
+            this.loadDataToCbxKH();
+        }
     }
 
     private void addControls() {
@@ -244,10 +247,8 @@ public class QLHVKH extends JPanel {
         cbxSearchKH.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                if (e.getStateChange() == ItemEvent.SELECTED) {
-                    if (cbxSearchKH.getItemCount() > 0 && cbxSearchNam.getItemCount() > 0) {
-                        loadDataToTable();
-                    }
+                if (cbxSearchKH.getItemCount() > 0 && cbxSearchNam.getItemCount() > 0) {
+                    loadDataToTable();
                 }
             }
         });
@@ -355,7 +356,6 @@ public class QLHVKH extends JPanel {
             @Override
             public void insertUpdate(DocumentEvent e) {
                 try {
-
                     if (txtHocVien.getText().length() > 0) {
                         listSearchHV = getListHV_Join_HVKH(txtHocVien.getText().trim(), khoaHoc.getId());
                         search(indexSearch);
@@ -424,11 +424,13 @@ public class QLHVKH extends JPanel {
 
     private void search(int i) {
         if (listSearchHV.size() > 0) {
+
             if (indexSearch == listSearchHV.size()) {
                 indexSearch = 0;
             }
 
             HocVien hocVien = listSearchHV.get(indexSearch);
+
             for (HocVien_KhoaHoc hvkh : listHV_KH) {
                 if (hvkh.getMaHV().equalsIgnoreCase(hocVien.getId())) {
                     index = listHV_KH.indexOf(hvkh);
@@ -502,12 +504,12 @@ public class QLHVKH extends JPanel {
             listHV = hvdao.getAll();
             listYear = getYear();
 
-            for (int year : listYear) {
+            for (Integer year : listYear) {
                 cbxSearchNam.addItem(year);
             }
 
         } catch (SQLException ex) {
-            System.out.println(ex.toString());
+            ex.printStackTrace();
         }
     }
 
@@ -618,10 +620,52 @@ public class QLHVKH extends JPanel {
 
     public void refresh() {
         try {
+            // Lấy dữ liệu cũ
+            int year = (int) cbxSearchNam.getSelectedItem();
+            HocVien_KhoaHoc oldHVKH = hvkh;
+            KhoaHoc kh = (KhoaHoc) cbxSearchKH.getSelectedItem();
+
+            // Clear list
+            index = 0;
+            listKH.clear();
+            listYear.clear();
+            listHV_KH.clear();
+            listHV_KH_Search.clear();
+            listSearchHV.clear();
+
+            // Reload dữ liệu
             loadDataToCbxNam();
             loadDataToCbxKH();
-            loadDataToTable();
+
+            // Load dữ liệu cũ lên form
+            for (Integer integer : listYear) {
+                if (integer == year) {
+                    cbxSearchNam.setSelectedItem(integer);
+                    break;
+                }
+            }
+
+            for (KhoaHoc kh1 : listKH) {
+                if (kh1.getId() == kh.getId()) {
+                    cbxSearchKH.setSelectedIndex(listKH.indexOf(kh1));
+                    break;
+                }
+            }
+            if (txtHocVien.getText().length() > 0) {
+                listSearchHV = getListHV_Join_HVKH(txtHocVien.getText().trim(), khoaHoc.getId());
+                search(indexSearch);
+            } else {
+                for (HocVien_KhoaHoc hvkh : listHV_KH) {
+                    if (hvkh.getId() == oldHVKH.getId()) {
+                        index = listHV_KH.indexOf(hvkh);
+                        tblHVKH.setRowSelectionInterval(index, index);
+                        break;
+                    }
+                }
+            }
+
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -686,7 +730,6 @@ public class QLHVKH extends JPanel {
             mnuDelete.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-
                     delete();
                 }
             });
