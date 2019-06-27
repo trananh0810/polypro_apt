@@ -1027,8 +1027,6 @@ public class QLNV extends JPanel {
             model.addRow(new Object[]{stt, nhanVien.getID(), nhanVien.getHoTen(), nhanVien.getEmail(), vaiTro});
             stt++;
         }
-
-//        tblNhanVien.setRowSelectionInterval(0, 0);
     }
     // </editor-fold>
 
@@ -1511,10 +1509,10 @@ public class QLNV extends JPanel {
                     if (nv.getID().equalsIgnoreCase(nvSelected.getID())) {
                         loadDataToForm();
                         for (int i = 0; i < tblNhanVien.getRowCount(); i++) {
-                            if (tblNhanVien.getValueAt(i, 1).equals(nvSelected.getID())) {
+                            if (model.getValueAt(i, 1).equals(nvSelected.getID())) {
                                 tblNhanVien.setRowSelectionInterval(i, i);
+                                indexNvSelectedInTable = i;
                             }
-                            indexNvSelectedInTable = i;
                         }
                         return;
                     }
@@ -1526,6 +1524,8 @@ public class QLNV extends JPanel {
                 tblNhanVien.setRowSelectionInterval(0, 0);
 
                 indexNvSelectedInTable = 0;
+            } else {
+                tblNhanVien.setRowSelectionInterval(indexNvSelectedInTable, indexNvSelectedInTable);
             }
         }
 
