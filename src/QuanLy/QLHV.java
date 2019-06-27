@@ -1662,14 +1662,13 @@ public class QLHV extends JPanel {
                             btnNew.setEnabled(false);
                             btnDelete.setEnabled(false);
                             btnAddKH.setEnabled(false);
-//                            lblKhoaHocCua.setText("");
                             dtmKH.setRowCount(0);
+                            resetForm();
                         } else {
                             btnUpdate.setEnabled(true);
                             btnNew.setEnabled(true);
                             btnDelete.setEnabled(true);
                             btnAddKH.setEnabled(true);
-//                            lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
                         }
                     } else {
 //                        lblKhoaHocCua.setText("");
