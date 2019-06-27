@@ -2755,7 +2755,7 @@ public class QLHV extends JPanel {
 
     // <editor-fold defaultstate="collapsed" desc="TÌM TIẾP ">
     private void continueSearch() throws SQLException, ParseException {
-        if (flagSearch == SEARCH) {
+        if (flagSearch == SEARCH && flagFind == FOUND) {
             if (indexHvInListSearch < listHvSearch.size() - 1) {
                 indexHvInListSearch++;
             } else {
