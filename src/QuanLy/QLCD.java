@@ -297,7 +297,6 @@ public class QLCD extends JPanel {
         pnInformation.add(scMoTa, gbc);
 
         JPanel pnButton = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
-        pnButton.setPreferredSize(new Dimension(330, 30));
         pnButton.add(btnNew);
         pnButton.add(btnEdit);
         if (DangNhapFrame.nvLogin.getVaiTro() == ROLE_TRUONG_PHONG) {
@@ -487,16 +486,6 @@ public class QLCD extends JPanel {
                         listSearch = new ChuyenDeDAO().get(txtSearch.getText().trim());
                         search(indexSearch);
 
-                        if (listSearch.size() > 0) {
-                            btnNew.setEnabled(true);
-                            btnEdit.setEnabled(true);
-                            btnDelete.setEnabled(true);
-                        } else {
-                            btnNew.setEnabled(false);
-                            btnEdit.setEnabled(false);
-                            btnDelete.setEnabled(false);
-                        }
-
                     } else {
                         indexSearch = 0;
                         index = 0;
@@ -602,6 +591,17 @@ public class QLCD extends JPanel {
             if (txtSearch.getText().length() > 0) {
                 listSearch = new ChuyenDeDAO().get(txtSearch.getText().trim());
                 search(indexSearch);
+
+                if (listSearch.size() > 0) {
+                    btnNew.setEnabled(true);
+                    btnEdit.setEnabled(true);
+                    btnDelete.setEnabled(true);
+                } else {
+                    btnNew.setEnabled(false);
+                    btnEdit.setEnabled(false);
+                    btnDelete.setEnabled(false);
+                }
+
             } else {
                 for (ChuyenDe chuyenDe1 : list) {
                     if (chuyenDe1.getId().equalsIgnoreCase(cd.getId())) {
@@ -610,6 +610,10 @@ public class QLCD extends JPanel {
                         break;
                     }
                 }
+            }
+            
+            if (index == 0) {
+                fillToForm(index);
             }
         } catch (Exception e) {
         }

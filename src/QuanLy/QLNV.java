@@ -1220,7 +1220,7 @@ public class QLNV extends JPanel {
     // <editor-fold defaultstate="collapsed" desc="XÓA NHÂN VIÊN ">
     private void deleteNV() throws SQLException {
         if (!nvSelected.getID().equalsIgnoreCase(DangNhapFrame.nvLogin.getID())) {
-            int choose = JOptionPane.showConfirmDialog(null, "Bạn có muốn xóa nhân viên này không?", "Hỏi", JOptionPane.YES_NO_OPTION);
+            int choose = JOptionPane.showConfirmDialog(null, "Bạn có muốn xóa nhân viên " + nvSelected.getHoTen() + " không?", "Hỏi", JOptionPane.YES_NO_OPTION);
 
             if (choose == JOptionPane.YES_OPTION) {
 

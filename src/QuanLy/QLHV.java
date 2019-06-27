@@ -539,8 +539,7 @@ public class QLHV extends JPanel {
 
                 loadDataToForm();
 
-                lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
-
+//                lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
                 try {
                     loadDataToTblKH();
 
@@ -816,7 +815,7 @@ public class QLHV extends JPanel {
                 txtHoTen.requestFocus();
                 flagSave = FLAG_INSERT;
                 dtmKH.setRowCount(0);
-                lblKhoaHocCua.setText("");
+//                lblKhoaHocCua.setText("");
                 chkSearchAll.setEnabled(false);
                 try {
                     loadDataToCbxKhoaHoc();
@@ -939,7 +938,7 @@ public class QLHV extends JPanel {
                                 Logger.getLogger(QLHV.class.getName()).log(Level.SEVERE, null, ex);
                             }
 
-                            lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
+//                            lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
                         }
                     } else {
                         try {
@@ -964,13 +963,12 @@ public class QLHV extends JPanel {
                             if (flagFind == NOT_FOUND) {
                                 dtmKH.setRowCount(0);
 
-                                lblKhoaHocCua.setText("");
-
+//                                lblKhoaHocCua.setText("");
                                 btnUpdate.setEnabled(false);
                                 btnDelete.setEnabled(false);
                                 btnAddKH.setEnabled(false);
                             } else {
-                                lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
+//                                lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
                                 btnUpdate.setEnabled(true);
                                 btnDelete.setEnabled(true);
                                 btnAddKH.setEnabled(true);
@@ -1023,8 +1021,7 @@ public class QLHV extends JPanel {
 
                         hvSelected = listHocVien.get(indexInList);
 
-                        lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
-
+//                        lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
                         loadDataToForm();
 
                         lockFormInfo();
@@ -1057,8 +1054,7 @@ public class QLHV extends JPanel {
                         hvSelected = listHvSearch.get(indexInList);
                     }
 
-                    lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
-
+//                    lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
                     loadDataToForm();
 
                     lockFormInfo();
@@ -1172,14 +1168,14 @@ public class QLHV extends JPanel {
                     btnNew.setEnabled(false);
                     btnDelete.setEnabled(false);
                     btnAddKH.setEnabled(false);
-                    lblKhoaHocCua.setText("");
+//                    lblKhoaHocCua.setText("");
                     dtmKH.setRowCount(0);
                 } else {
                     btnUpdate.setEnabled(true);
                     btnNew.setEnabled(true);
                     btnDelete.setEnabled(true);
                     btnAddKH.setEnabled(true);
-                    lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
+//                    lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
                 }
             }
 
@@ -1199,7 +1195,7 @@ public class QLHV extends JPanel {
 
                             loadDataToCbxKhoaHoc();
 
-                            lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
+//                            lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
                         } catch (SQLException ex) {
                             Logger.getLogger(QLHV.class.getName()).log(Level.SEVERE, null, ex);
                         } catch (ParseException ex) {
@@ -1234,13 +1230,13 @@ public class QLHV extends JPanel {
                             dtmKH.setRowCount(0);
                             model.setRowCount(0);
                             resetForm();
-                            lblKhoaHocCua.setText("");
+//                            lblKhoaHocCua.setText("");
                         } else {
                             btnUpdate.setEnabled(true);
                             btnNew.setEnabled(true);
                             btnDelete.setEnabled(true);
                             btnAddKH.setEnabled(true);
-                            lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
+//                            lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
                         }
                     }
                 } else {
@@ -1274,7 +1270,7 @@ public class QLHV extends JPanel {
                         btnNew.setEnabled(false);
                         btnDelete.setEnabled(false);
                         btnAddKH.setEnabled(false);
-                        lblKhoaHocCua.setText("");
+//                        lblKhoaHocCua.setText("");
                     }
                 }
 
@@ -1324,8 +1320,7 @@ public class QLHV extends JPanel {
                         hvSelected = listHocVien.get(indexInList);
                         loadDataToForm();
 
-                        lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
-
+//                        lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
                         try {
                             loadDataToTblKH();
                         } catch (SQLException ex) {
@@ -1350,7 +1345,7 @@ public class QLHV extends JPanel {
                         btnUpdate.setEnabled(false);
                         btnDelete.setEnabled(false);
                         btnAddKH.setEnabled(false);
-                        lblKhoaHocCua.setText("");
+//                        lblKhoaHocCua.setText("");
                     }
                 }
             }
@@ -1428,12 +1423,15 @@ public class QLHV extends JPanel {
             public void keyReleased(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_UP) {
                     int stt = (int) tblHocVien.getValueAt(tblHocVien.getSelectedRow(), 0) - 1;
-                    hvSelected = listHocVien.get(stt);
+                    if (chkSearchAll.isSelected()) {
+                        hvSelected = listHvSearch.get(stt);
+                    } else {
+                        hvSelected = listHocVien.get(stt);
+                    }
 
                     loadDataToForm();
 
-                    lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
-
+//                    lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
                     try {
                         loadDataToCbxKhoaHoc();
                         loadDataToTblKH();
@@ -1446,10 +1444,14 @@ public class QLHV extends JPanel {
 
                 if (e.getKeyCode() == KeyEvent.VK_DOWN) {
                     int stt = (int) tblHocVien.getValueAt(tblHocVien.getSelectedRow(), 0) - 1;
-                    hvSelected = listHocVien.get(stt);
+                    if (chkSearchAll.isSelected()) {
+                        hvSelected = listHvSearch.get(stt);
+                    } else {
+                        hvSelected = listHocVien.get(stt);
+                    }
 
                     loadDataToForm();
-                    lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
+//                    lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
                     try {
                         loadDataToCbxKhoaHoc();
                         loadDataToTblKH();
@@ -1648,7 +1650,7 @@ public class QLHV extends JPanel {
                             loadDataToTblKH();
                             loadDataToCbxKhoaHoc();
                             loadDataToForm();
-                            lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
+//                            lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
                         } catch (SQLException ex) {
                             Logger.getLogger(QLHV.class.getName()).log(Level.SEVERE, null, ex);
                         } catch (ParseException ex) {
@@ -1660,17 +1662,17 @@ public class QLHV extends JPanel {
                             btnNew.setEnabled(false);
                             btnDelete.setEnabled(false);
                             btnAddKH.setEnabled(false);
-                            lblKhoaHocCua.setText("");
+//                            lblKhoaHocCua.setText("");
                             dtmKH.setRowCount(0);
                         } else {
                             btnUpdate.setEnabled(true);
                             btnNew.setEnabled(true);
                             btnDelete.setEnabled(true);
                             btnAddKH.setEnabled(true);
-                            lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
+//                            lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
                         }
                     } else {
-                        lblKhoaHocCua.setText("");
+//                        lblKhoaHocCua.setText("");
                     }
                 } else if (e.getStateChange() == ItemEvent.DESELECTED) {
                     cbxNam.setEnabled(true);
@@ -1704,14 +1706,14 @@ public class QLHV extends JPanel {
                             btnNew.setEnabled(false);
                             btnDelete.setEnabled(false);
                             btnAddKH.setEnabled(false);
-                            lblKhoaHocCua.setText("");
+//                            lblKhoaHocCua.setText("");
                             dtmKH.setRowCount(0);
                         } else {
                             btnUpdate.setEnabled(true);
                             btnNew.setEnabled(true);
                             btnDelete.setEnabled(true);
                             btnAddKH.setEnabled(true);
-                            lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
+//                            lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
                         }
                     } else {
                         //load dữ liệu lên table
@@ -1743,9 +1745,9 @@ public class QLHV extends JPanel {
 
                                 indexHvSelectedInTable = 0;
 
-                                lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
+//                                lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
                             } else {
-                                lblKhoaHocCua.setText("");
+//                                lblKhoaHocCua.setText("");
                                 dtmKH.setRowCount(0);
                             }
                         }
@@ -1835,6 +1837,7 @@ public class QLHV extends JPanel {
         rdoNam.setSelected(true);
         txtSDT.setText("");
         txaGhiChu.setText("");
+        lblKhoaHocCua.setText("");
     }
     // </editor-fold>
 
@@ -1855,7 +1858,7 @@ public class QLHV extends JPanel {
                 dateHelper.castDateForm3ToForm1(hocVien.getNgayDK())});
             stt++;
         }
-        
+
         if (model.getRowCount() > 0) {
             tblHocVien.setRowSelectionInterval(0, 0);
         }
@@ -1888,6 +1891,7 @@ public class QLHV extends JPanel {
         txtSDT.setText(hvSelected.getDienThoai());
         txtEmail.setText(hvSelected.getEmail());
         txaGhiChu.setText(hvSelected.getGhiChu());
+        lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
     }
     // </editor-fold>
 
@@ -1922,13 +1926,13 @@ public class QLHV extends JPanel {
                 loadDataToForm();
                 tblHocVien.setRowSelectionInterval(0, 0);
             }
-            lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
+//            lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
         } else {
             flagFind = NOT_FOUND;
             resetForm();
             tblHocVien.clearSelection();
             dtmKH.setRowCount(0);
-            lblKhoaHocCua.setText("");
+//            lblKhoaHocCua.setText("");
         }
     }
     // </editor-fold>
@@ -2077,8 +2081,7 @@ public class QLHV extends JPanel {
                     }
                 }
 
-                lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
-
+//                lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
                 //send mail thông báo đăng ký thành công
                 new Thread(new Runnable() {
                     @Override
@@ -2149,13 +2152,13 @@ public class QLHV extends JPanel {
                         btnNew.setEnabled(false);
                         btnDelete.setEnabled(false);
                         btnAddKH.setEnabled(false);
-                        lblKhoaHocCua.setText("");
+//                        lblKhoaHocCua.setText("");
                     } else {
                         btnUpdate.setEnabled(true);
                         btnNew.setEnabled(true);
                         btnDelete.setEnabled(true);
                         btnAddKH.setEnabled(true);
-                        lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
+//                        lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
                     }
                 } else {
                     loadDataToTable((int) cbxNam.getSelectedItem());
@@ -2314,7 +2317,7 @@ public class QLHV extends JPanel {
 
                 indexHvSelectedInTable = tblHocVien.getSelectedRow();
             } else {
-                lblKhoaHocCua.setText("");
+//                lblKhoaHocCua.setText("");
             }
         } else {
             if (model.getRowCount() > 0) {
@@ -2337,22 +2340,22 @@ public class QLHV extends JPanel {
 
                     indexHvSelectedInTable = tblHocVien.getSelectedRow();
                 } else {
-                    lblKhoaHocCua.setText("");
+//                    lblKhoaHocCua.setText("");
                 }
             }
         }
 
         if (chkSearchAll.isSelected()) {
             if (listHvSearch.size() > 0) {
-                lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
+//                lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
             } else {
-                lblKhoaHocCua.setText("");
+//                lblKhoaHocCua.setText("");
             }
         } else {
             if (listHocVien.size() > 0) {
-                lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
+//                lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
             } else {
-                lblKhoaHocCua.setText("");
+//                lblKhoaHocCua.setText("");
             }
         }
     }
@@ -2429,7 +2432,7 @@ public class QLHV extends JPanel {
 
         loadDataToCbxKhoaHoc();
 
-        lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
+//        lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
     }
     // </editor-fold>
 
@@ -2550,7 +2553,7 @@ public class QLHV extends JPanel {
                         for (HocVien hv : listHocVien) {
                             if (hv.getId().equalsIgnoreCase(hvSelected.getId())) {
                                 loadDataToForm();
-                                lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
+//                                lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
                                 try {
                                     loadDataToTblKH();
 
@@ -2581,10 +2584,10 @@ public class QLHV extends JPanel {
                         } catch (ParseException ex) {
                             Logger.getLogger(QLHV.class.getName()).log(Level.SEVERE, null, ex);
                         }
+                        doneRefresh = true;
                         return;
                     }
                 }
-                System.out.println("x");
                 //load dữ liệu lên table
                 if (cbxNam.getItemCount() != 0) {
                     loadDataToTable((int) cbxNam.getSelectedItem());
@@ -2594,7 +2597,7 @@ public class QLHV extends JPanel {
                         for (HocVien hv : listHocVien) {
                             if (hv.getId().equalsIgnoreCase(hvSelected.getId())) {
                                 loadDataToForm();
-                                lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
+//                                lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
                                 try {
                                     loadDataToTblKH();
 
@@ -2612,6 +2615,7 @@ public class QLHV extends JPanel {
                                         indexHvSelectedInTable = i;
                                     }
                                 }
+                                doneRefresh = true;
                                 return;
                             }
                         }
@@ -2619,8 +2623,7 @@ public class QLHV extends JPanel {
 
                         loadDataToForm();
 
-                        lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
-
+//                        lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
                         try {
                             loadDataToTblKH();
 
@@ -2649,6 +2652,16 @@ public class QLHV extends JPanel {
                         for (HocVien hv : listHvSearch) {
                             model.addRow(new Object[]{stt, hv.getId(), hv.getHoTen(), (hv.isGioiTinh() ? "Nam" : "Nữ"), hv.getNgaySinh(), hv.getDienThoai(), hv.getNgayDK()});
                             stt++;
+                        }
+
+                        for (int i = 0; i < model.getRowCount(); i++) {
+                            if (model.getValueAt(i, 1).equals(hvSelected.getId())) {
+                                loadDataToTblKH();
+                                loadDataToCbxKhoaHoc();
+                                loadDataToForm();
+                                tblHocVien.setRowSelectionInterval(i, i);
+                                return;
+                            }
                         }
 
                         searchHV();
@@ -2752,9 +2765,9 @@ public class QLHV extends JPanel {
             loadDataToCbxKhoaHoc();
 
             if (listHvSearch.size() > 0) {
-                lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
+//                lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
             } else {
-                lblKhoaHocCua.setText("");
+//                lblKhoaHocCua.setText("");
                 btnNew.setEnabled(false);
                 btnUpdate.setEnabled(false);
                 btnDelete.setEnabled(false);

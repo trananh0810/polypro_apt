@@ -290,6 +290,7 @@ public class ThongKeNguoiDangKyHoc extends JPanel {
                 if ((int)cbxNam.getItemAt(i) == year) {
                     cbxNam.setSelectedItem(year);
                     loadDataToTbl(getListThongKe(year));
+                    doneRefresh = true;
                     return;
                 }
             }
