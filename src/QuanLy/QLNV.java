@@ -307,7 +307,8 @@ public class QLNV extends JPanel {
 
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.ipadx = 115;
+        gbc.weightx = 330;
+//        gbc.ipadx = 115;
 
         gbc.gridy = 1;
         pnInformation.add(lblInformationTitle, gbc);
@@ -340,6 +341,7 @@ public class QLNV extends JPanel {
         pnInformation.add(lblEmail, gbc);
 
         gbc.gridy = 11;
+        gbc.weightx = 330;
         pnInformation.add(txtEmail, gbc);
 
         gbc.gridy = 12;
@@ -353,6 +355,7 @@ public class QLNV extends JPanel {
         pnInformation.add(pnGioiTinh, gbc);
 
         JPanel pnButton1 = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
+        pnButton1.setPreferredSize(new Dimension(330, 30));
         pnButton1.add(btnNew);
         pnButton1.add(btnUpdate);
         pnButton1.add(btnSave);
@@ -1085,14 +1088,20 @@ public class QLNV extends JPanel {
             return false;
         }
 
-        if (!txtHoTen.getText().matches("^[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ\\s\']{5,100}$")) {
-            JOptionPane.showMessageDialog(null, "Vui lòng nhập họ tên đầy đủ, không chứa số và các ký tự đặc biệt \n, . / ; < > ? : \" { } - = _ + ` ~ ! @ $ % ^ & * ( ) \\ |", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+        if (!txtHoTen.getText().matches("^[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ\\s\']{5,50}$")) {
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập họ tên đầy đủ, không quá 50 ký tự, không chứa số và các ký tự đặc biệt \n, . / ; < > ? : \" { } - = _ + ` ~ ! @ $ % ^ & * ( ) \\ |", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
             txtHoTen.requestFocus();
             return false;
         }
 
         if (pwfMatKhau.getPassword().length == 0) {
             JOptionPane.showMessageDialog(null, "Vui lòng nhật mật khẩu!", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+            pwfMatKhau.requestFocus();
+            return false;
+        }
+        
+        if (pwfMatKhau.getPassword().length > 20) {
+            JOptionPane.showMessageDialog(null, "Mật khẩu không quá 20 ký tự!", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
             pwfMatKhau.requestFocus();
             return false;
         }
@@ -1111,6 +1120,12 @@ public class QLNV extends JPanel {
 
         if (txtEmail.getText().length() == 0) {
             JOptionPane.showMessageDialog(null, "Vui lòng nhập email!", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+            txtEmail.requestFocus();
+            return false;
+        }
+        
+        if (txtEmail.getText().length() > 50) {
+            JOptionPane.showMessageDialog(null, "Email không được quá 50 ký tự!", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
             txtEmail.requestFocus();
             return false;
         }

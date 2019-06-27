@@ -425,6 +425,7 @@ public class QLHV extends JPanel {
         pnInformation.add(lblID, gbc);
 
         gbc.gridy = 2;
+        gbc.weightx = 330;
         pnInformation.add(txtID, gbc);
 
         gbc.gridy = 3;
@@ -434,6 +435,7 @@ public class QLHV extends JPanel {
         pnInformation.add(lblHoTen, gbc);
 
         gbc.gridy = 5;
+        gbc.weightx = 330;
         pnInformation.add(txtHoTen, gbc);
 
         gbc.gridy = 6;
@@ -1939,8 +1941,8 @@ public class QLHV extends JPanel {
 
     // <editor-fold defaultstate="collapsed" desc="CHECK INFO HỌC VIÊN ">
     private boolean checkInfo() throws SQLException, Exception {
-        if (!txtHoTen.getText().matches("^[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ\\s\']{5,100}$")) {
-            JOptionPane.showMessageDialog(null, "Vui lòng nhập họ tên đầy đủ, không chứa số và các ký tự đặc biệt \n, . / ; < > ? : \" { } - = _ + ` ~ ! @ $ % ^ & * ( ) \\ |", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+        if (!txtHoTen.getText().matches("^[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ\\s\']{5,50}$")) {
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập họ tên đầy đủ, không quá 50 ký tự, không chứa số và các ký tự đặc biệt \n, . / ; < > ? : \" { } - = _ + ` ~ ! @ $ % ^ & * ( ) \\ |", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
             txtHoTen.requestFocus();
             return false;
         }
@@ -1988,6 +1990,12 @@ public class QLHV extends JPanel {
 
         if (txtEmail.getText().length() == 0) {
             JOptionPane.showMessageDialog(null, "Vui lòng nhập email!", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+            txtEmail.requestFocus();
+            return false;
+        }
+
+        if (txtEmail.getText().length() > 50) {
+            JOptionPane.showMessageDialog(null, "Email không được quá 50 ký tự!", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
             txtEmail.requestFocus();
             return false;
         }

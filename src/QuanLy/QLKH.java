@@ -282,6 +282,7 @@ public class QLKH extends JPanel {
         pnInformation.add(lblCD, gbc);
 
         gbc.gridy = 2;
+        gbc.weightx = 330;
         pnInformation.add(cbxCD, gbc);
 
         gbc.gridy = 3;
@@ -300,6 +301,7 @@ public class QLKH extends JPanel {
         pnInformation.add(lblNgayKhaiGiang, gbc);
 
         gbc.gridy = 8;
+        gbc.weightx = 330;
         pnInformation.add(txtNgayKhaiGiang, gbc);
 
         gbc.gridy = 9;
