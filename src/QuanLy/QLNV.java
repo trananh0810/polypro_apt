@@ -770,8 +770,14 @@ public class QLNV extends JPanel {
 
                     if (flagFind == NOT_FOUND) {
                         btnUpdate.setEnabled(false);
+                        btnDelete.setEnabled(false);
+                        btnNew.setEnabled(false);
+                        btnResetPass.setEnabled(false);
                     } else {
                         btnUpdate.setEnabled(true);
+                        btnDelete.setEnabled(true);
+                        btnNew.setEnabled(true);
+                        btnResetPass.setEnabled(true);
                     }
                 }
             }
@@ -791,8 +797,14 @@ public class QLNV extends JPanel {
 
                     if (flagFind == NOT_FOUND) {
                         btnUpdate.setEnabled(false);
+                        btnDelete.setEnabled(false);
+                        btnNew.setEnabled(false);
+                        btnResetPass.setEnabled(false);
                     } else {
                         btnUpdate.setEnabled(true);
+                        btnDelete.setEnabled(true);
+                        btnNew.setEnabled(true);
+                        btnResetPass.setEnabled(true);
                     }
                 } else {
                     flagSearch = NO_SEARCH;
@@ -1016,7 +1028,7 @@ public class QLNV extends JPanel {
             stt++;
         }
 
-        tblNhanVien.setRowSelectionInterval(0, 0);
+//        tblNhanVien.setRowSelectionInterval(0, 0);
     }
     // </editor-fold>
 
@@ -1051,7 +1063,7 @@ public class QLNV extends JPanel {
                         if (tblNhanVien.getValueAt(i, 1).equals(nvSelected.getID())) {
                             tblNhanVien.setRowSelectionInterval(i, i);
                             flagFind = FOUND;
-
+                            indexNvSelectedInTable = i;
                             Rectangle rect = tblNhanVien.getCellRect(i, 0, true);
                             tblNhanVien.scrollRectToVisible(rect);
                             return;
@@ -1494,26 +1506,29 @@ public class QLNV extends JPanel {
         }
 
         if (listNhanVien.size() > 0) {
-            for (NhanVien nv : listNhanVien) {
-                if (nv.getID().equalsIgnoreCase(nvSelected.getID())) {
-                    loadDataToForm();
-                    for (int i = 0; i < tblNhanVien.getRowCount(); i++) {
-                        if (tblNhanVien.getValueAt(i, 1).equals(nvSelected.getID())) {
-                            tblNhanVien.setRowSelectionInterval(i, i);
+            if (flagSearch == NO_SEARCH) {
+                for (NhanVien nv : listNhanVien) {
+                    if (nv.getID().equalsIgnoreCase(nvSelected.getID())) {
+                        loadDataToForm();
+                        for (int i = 0; i < tblNhanVien.getRowCount(); i++) {
+                            if (tblNhanVien.getValueAt(i, 1).equals(nvSelected.getID())) {
+                                tblNhanVien.setRowSelectionInterval(i, i);
+                            }
+                            indexNvSelectedInTable = i;
                         }
-                        indexNvSelectedInTable = i;
+                        return;
                     }
-                    return;
                 }
+                int sttInList = (int) tblNhanVien.getValueAt(0, 0) - 1;
+                nvSelected = listNhanVien.get(sttInList);
+                loadDataToForm();
+
+                tblNhanVien.setRowSelectionInterval(0, 0);
+
+                indexNvSelectedInTable = 0;
             }
-            int sttInList = (int) tblNhanVien.getValueAt(0, 0) - 1;
-            nvSelected = listNhanVien.get(sttInList);
-            loadDataToForm();
-
-            tblNhanVien.setRowSelectionInterval(0, 0);
-
-            indexNvSelectedInTable = 0;
         }
+
     }
     // </editor-fold>
 

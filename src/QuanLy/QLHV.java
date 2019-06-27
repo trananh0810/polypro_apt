@@ -1911,7 +1911,7 @@ public class QLHV extends JPanel {
                             if (tblHocVien.getValueAt(i, 1).equals(hvSelected.getId())) {
                                 tblHocVien.setRowSelectionInterval(i, i);
                                 flagFind = FOUND;
-
+                                indexHvSelectedInTable = i;
                                 Rectangle rect = tblHocVien.getCellRect(i, 0, true);
                                 tblHocVien.scrollRectToVisible(rect);
                                 return;
@@ -1925,6 +1925,7 @@ public class QLHV extends JPanel {
                 hvSelected = listHvSearch.get(0);
                 loadDataToForm();
                 tblHocVien.setRowSelectionInterval(0, 0);
+                indexHvSelectedInTable = 0;
             }
 //            lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
         } else {
@@ -2541,107 +2542,109 @@ public class QLHV extends JPanel {
         doneRefresh = false;
         try {
             if (chkSearchAll.isSelected() == false) {
-                int yearSelected = (int) cbxNam.getSelectedItem();
-                //load dữ liệu vào cbx năm
-                loadDataToCbxYear();
+                if (flagSearch == NO_SEARCH) {
+                    int yearSelected = (int) cbxNam.getSelectedItem();
+                    //load dữ liệu vào cbx năm
+                    loadDataToCbxYear();
 
-                for (int i = 0; i < cbxNam.getItemCount(); i++) {
-                    if ((int) cbxNam.getItemAt(i) == yearSelected) {
-                        cbxNam.setSelectedIndex(i);
-                        loadDataToTable(yearSelected);
+                    for (int i = 0; i < cbxNam.getItemCount(); i++) {
+                        if ((int) cbxNam.getItemAt(i) == yearSelected) {
+                            cbxNam.setSelectedIndex(i);
+                            loadDataToTable(yearSelected);
 
-                        for (HocVien hv : listHocVien) {
-                            if (hv.getId().equalsIgnoreCase(hvSelected.getId())) {
-                                loadDataToForm();
+                            for (HocVien hv : listHocVien) {
+                                if (hv.getId().equalsIgnoreCase(hvSelected.getId())) {
+                                    loadDataToForm();
 //                                lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
-                                try {
-                                    loadDataToTblKH();
+                                    try {
+                                        loadDataToTblKH();
 
-                                    loadDataToCbxKhoaHoc();
-                                } catch (SQLException ex) {
-                                    Logger.getLogger(QLHV.class.getName()).log(Level.SEVERE, null, ex);
-                                } catch (ParseException ex) {
-                                    Logger.getLogger(QLHV.class.getName()).log(Level.SEVERE, null, ex);
-                                }
-
-                                for (int j = 0; j < tblHocVien.getRowCount(); j++) {
-                                    if (tblHocVien.getValueAt(j, 1).equals(hvSelected.getId())) {
-                                        tblHocVien.setRowSelectionInterval(j, j);
-
-                                        indexHvSelectedInTable = j;
+                                        loadDataToCbxKhoaHoc();
+                                    } catch (SQLException ex) {
+                                        Logger.getLogger(QLHV.class.getName()).log(Level.SEVERE, null, ex);
+                                    } catch (ParseException ex) {
+                                        Logger.getLogger(QLHV.class.getName()).log(Level.SEVERE, null, ex);
                                     }
+
+                                    for (int j = 0; j < tblHocVien.getRowCount(); j++) {
+                                        if (tblHocVien.getValueAt(j, 1).equals(hvSelected.getId())) {
+                                            tblHocVien.setRowSelectionInterval(j, j);
+
+                                            indexHvSelectedInTable = j;
+                                        }
+                                    }
+                                    break;
                                 }
-                                break;
                             }
-                        }
 
-                        try {
-                            loadDataToTblKH();
+                            try {
+                                loadDataToTblKH();
 
-                            loadDataToCbxKhoaHoc();
-                        } catch (SQLException ex) {
-                            Logger.getLogger(QLHV.class.getName()).log(Level.SEVERE, null, ex);
-                        } catch (ParseException ex) {
-                            Logger.getLogger(QLHV.class.getName()).log(Level.SEVERE, null, ex);
+                                loadDataToCbxKhoaHoc();
+                            } catch (SQLException ex) {
+                                Logger.getLogger(QLHV.class.getName()).log(Level.SEVERE, null, ex);
+                            } catch (ParseException ex) {
+                                Logger.getLogger(QLHV.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            doneRefresh = true;
+                            return;
                         }
-                        doneRefresh = true;
-                        return;
                     }
-                }
-                //load dữ liệu lên table
-                if (cbxNam.getItemCount() != 0) {
-                    loadDataToTable((int) cbxNam.getSelectedItem());
+                    //load dữ liệu lên table
+                    if (cbxNam.getItemCount() != 0) {
+                        loadDataToTable((int) cbxNam.getSelectedItem());
 
-                    //load học viên đầu tiên lên form
-                    if (listHocVien.size() > 0) {
-                        for (HocVien hv : listHocVien) {
-                            if (hv.getId().equalsIgnoreCase(hvSelected.getId())) {
-                                loadDataToForm();
+                        //load học viên đầu tiên lên form
+                        if (listHocVien.size() > 0) {
+                            for (HocVien hv : listHocVien) {
+                                if (hv.getId().equalsIgnoreCase(hvSelected.getId())) {
+                                    loadDataToForm();
 //                                lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
-                                try {
-                                    loadDataToTblKH();
+                                    try {
+                                        loadDataToTblKH();
 
-                                    loadDataToCbxKhoaHoc();
-                                } catch (SQLException ex) {
-                                    Logger.getLogger(QLHV.class.getName()).log(Level.SEVERE, null, ex);
-                                } catch (ParseException ex) {
-                                    Logger.getLogger(QLHV.class.getName()).log(Level.SEVERE, null, ex);
-                                }
-
-                                for (int i = 0; i < tblHocVien.getRowCount(); i++) {
-                                    if (tblHocVien.getValueAt(i, 1).equals(hvSelected.getId())) {
-                                        tblHocVien.setRowSelectionInterval(i, i);
-
-                                        indexHvSelectedInTable = i;
+                                        loadDataToCbxKhoaHoc();
+                                    } catch (SQLException ex) {
+                                        Logger.getLogger(QLHV.class.getName()).log(Level.SEVERE, null, ex);
+                                    } catch (ParseException ex) {
+                                        Logger.getLogger(QLHV.class.getName()).log(Level.SEVERE, null, ex);
                                     }
-                                }
-                                doneRefresh = true;
-                                return;
-                            }
-                        }
-                        hvSelected = listHocVien.get(0);
 
-                        loadDataToForm();
+                                    for (int i = 0; i < tblHocVien.getRowCount(); i++) {
+                                        if (tblHocVien.getValueAt(i, 1).equals(hvSelected.getId())) {
+                                            tblHocVien.setRowSelectionInterval(i, i);
+
+                                            indexHvSelectedInTable = i;
+                                        }
+                                    }
+                                    doneRefresh = true;
+                                    return;
+                                }
+                            }
+                            hvSelected = listHocVien.get(0);
+
+                            loadDataToForm();
 
 //                        lblKhoaHocCua.setText(hvSelected.getHoTen() + " đã tham gia khóa học");
-                        try {
-                            loadDataToTblKH();
+                            try {
+                                loadDataToTblKH();
 
-                            loadDataToCbxKhoaHoc();
-                        } catch (SQLException ex) {
-                            Logger.getLogger(QLHV.class.getName()).log(Level.SEVERE, null, ex);
-                        } catch (ParseException ex) {
-                            Logger.getLogger(QLHV.class.getName()).log(Level.SEVERE, null, ex);
+                                loadDataToCbxKhoaHoc();
+                            } catch (SQLException ex) {
+                                Logger.getLogger(QLHV.class.getName()).log(Level.SEVERE, null, ex);
+                            } catch (ParseException ex) {
+                                Logger.getLogger(QLHV.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+
+                            tblHocVien.setRowSelectionInterval(0, 0);
+
+                            indexHvSelectedInTable = 0;
                         }
-
-                        tblHocVien.setRowSelectionInterval(0, 0);
-
-                        indexHvSelectedInTable = 0;
                     }
-                }
 
-                loadDataToTblKH();
-                loadDataToCbxKhoaHoc();
+                    loadDataToTblKH();
+                    loadDataToCbxKhoaHoc();
+                }
             } else {
                 if (txtSearchHV.getText().trim().length() > 0) {
                     try {
